@@ -4,6 +4,11 @@ var cityNameDisplay = document.querySelector(".display-city-name")
 console.log(cityNameDisplay)
 var cityStorage = [];
 var  cityNameInput
+var currentDate = document.querySelector(".date");
+
+var date = moment().format("dddd, MMMM Do");
+console.log(date)
+currentDate.innerHTML = date
 
 var all = document.querySelector(".city-button");
 console.log(all.innerHTML)
@@ -25,17 +30,16 @@ function cityName (city) {
     console.log(cityNameInput);
 
     cityNameDisplay.innerHTML = cityNameInput
-    
+
     localStorage.setItem("city", cityNameInput);
     cityStorage ++;
 
     var cityButton = document.createElement("button");
     cityButton.innerHTML = cityNameInput;
     console.log(cityButton.innerText)
-    $(".city-button").append(cityButton)
+    $(".city-button").append(cityButton).addClass("btn-secondary")
 
-   
-    
+
     cityButton.addEventListener("click", boutton)
     function boutton()
     {   
@@ -55,13 +59,13 @@ function cityName (city) {
 
     .then(function(response) {
         var temperatureEl = document.querySelector(".temperature")
-        temperatureEl.innerHTML = " " + response.main.temp + " C"
+        temperatureEl.innerHTML = "Temperature = " + response.main.temp + " C"
 
         var windEl = document.querySelector(".wind")
-        windEl.innerHTML = " " + response.wind.speed + " km/h"
+        windEl.innerHTML = "Wind = " + response.wind.speed + " km/h"
 
         var humidityEl = document.querySelector(".humidity")
-        humidityEl.innerHTML = " " + response.main.humidity + " %"
+        humidityEl.innerHTML = "Humidity " + response.main.humidity + " %"
 
         var latitude = response.coord.lat
         console.log(latitude)
@@ -77,7 +81,7 @@ function cityName (city) {
 
         .then(function(response) {
         var uvIndexEl = document.querySelector(".uv-index")
-        uvIndexEl.innerHTML = " " + response.current.uvi
+        uvIndexEl.innerHTML = "UV Index = " + response.current.uvi
        
         // add if uv is less than 2 = green, 3-5 = yellow, 6 and higher is red
 
@@ -87,13 +91,13 @@ function cityName (city) {
         // add if uv is less than 2 = green, 3-5 = yellow, 6 and higher is red
 
         if (uvColor < 2) {
-            $("h3.uv-index").css("background-color","green");
+            $("p.uv-index").css("background-color","green");
         }
         else if (uvColor > 6) {
-            $("h3.uv-index").css("background-color","red");
+            $("p.uv-index").css("background-color","red");
         }
         else {
-            $("h3.uv-index").css("background-color","yellow");
+            $("p.uv-index").css("background-color","yellow");
         }
 
         })
@@ -128,7 +132,7 @@ function cityName (city) {
         var dayThreeTempEl = document.querySelector(".day-three-temp")
         dayThreeTempEl.innerHTML = "Temperature = " + response.list[19].main.temp + " C"
         var dayThreeWindEl = document.querySelector(".day-three-wind")
-        dayOneWindEl.innerHTML = "Wind = " + response.list[19].wind.speed + " km/h"
+        dayThreeWindEl.innerHTML = "Wind = " + response.list[19].wind.speed + " km/h"
         var dayThreeHumidityEl = document.querySelector(".day-three-humidity")
         dayThreeHumidityEl.innerHTML = "Humdity = " + response.list[19].main.humidity + " %"
 
@@ -186,25 +190,9 @@ function loadCity () {
         var humidityEl = document.querySelector(".humidity")
         humidityEl.append(" " + response.main.humidity + " %")
 
-        var latitude = response.coord.lat
-        console.log(latitude)
-        var longitude = response.coord.lon
-        console.log(longitude)
-
-        var uvIndex = "https://api.openweathermap.org/data/2.5/onecall?lat=" + latitude + "&lon=" +longitude + "&appid=" + apiKey;
-
-        fetch(uvIndex)
-        .then(function(response) {
-        return response.json();
-        })
-
-        .then(function(response) {
-        var uvIndexEl = document.querySelector(".uv-index")
-        uvIndexEl.append(" " + response.current.uvi)
-
         
 
-        })
+       
     })
 
     fetch(fiveDayWeather)
@@ -230,7 +218,7 @@ function loadCity () {
         var dayThreeTempEl = document.querySelector(".day-three-temp")
         dayThreeTempEl.append("Temperature = " + response.list[19].main.temp + " C")
         var dayThreeWindEl = document.querySelector(".day-three-wind")
-        dayOneWindEl.append("Wind = " + response.list[19].wind.speed + " km/h")
+        dayThreeWindEl.append("Wind = " + response.list[19].wind.speed + " km/h")
         var dayThreeHumidityEl = document.querySelector(".day-three-humidity")
         dayThreeHumidityEl.append("Humdity = " + response.list[19].main.humidity + " %")
 
